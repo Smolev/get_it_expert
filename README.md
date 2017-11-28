@@ -4,8 +4,8 @@
 
 Данные собраны по резюме и вакансиям для разных регионов страны за ноябрь - октября 2017. 
 
-Ссылка на бота: https://t.me/GetIT_Expert_bot
+Ссылка на бота: https://web.telegram.org/#/im?p=@GetIT_Expert_bot
 
-@GetIT_Expert_bot
+@GetIT_Expert_bot, https://t.me/GetIT_Expert_bot
 
 Тестовая версия
