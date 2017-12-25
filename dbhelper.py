@@ -14,6 +14,9 @@ class DBHelper:
                "Level text)"
         self.conn.execute(stmt)
         self.conn.commit()
+        stmt = "CREATE TABLE IF NOT EXISTS mean (Name_area text, Ability text, Level text, " \
+               "low INT, high INT)"
+        self.conn.execute(stmt)
         stmt = "CREATE TABLE IF NOT EXISTS vacancies (Name_area text, Ability text, Level text, " \
                "Amount INT, answer_mean INT, answer_min INT, answer_max INT, answer_median INT, answer_std REAL)"
         self.conn.execute(stmt)
@@ -99,6 +102,26 @@ class DBHelper:
         args = (Name_area, Ability, Level, Amount, answer_mean, answer_min, answer_max, answer_median, answer_std)
         self.conn.execute(stmt, args)
         self.conn.commit()
+
+ 
+    def add_mean(self, Name_area, Ability, Level, low, high):
+        stmt = "INSERT INTO mean (Name_area, Ability, Level," \
+               "low, high) VALUES (?,?,?,?,?)"
+        args = (Name_area, Ability, Level, low, high)
+        self.conn.execute(stmt, args)
+        self.conn.commit()
+
+
+    def get_mean(self, Name_area, Ability, Level):
+        stmt = "SELECT * FROM mean WHERE Name_area = '{}' and Ability = '{}' and Level = '{}'".format(str(Name_area), str(Ability), str(Level))
+        # args = (Name_area, Ability, Level)
+        vacancy_info = [x for x in self.conn.execute(stmt)]
+        if len(vacancy_info) == 0:
+            return dict()
+        keys = ('Name_area', 'Ability', 'Level',
+               'low', 'high')
+        return dict(zip(keys, vacancy_info[0]))
+
 
     def add_resume(self, Name_area, Ability, Level, Amount, answer_mean,
                     answer_min, answer_max, answer_median, answer_std):
