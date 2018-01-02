@@ -74,7 +74,7 @@ def send_mail(chat, document, text, extension):
     gmail_user = "getit.resume@gmail.com"
     gmail_pwd = config.password
     FROM = gmail_user
-    TO = ['getitbot@gmail.com']
+    TO = ['getitbot@gmail.com', 'cv@get-it.io']
     
     msg = MIMEMultipart('mixed')
     msg['From'] = FROM
@@ -282,7 +282,7 @@ def give_recomends(ability):
 
 def get_text(status):
     text = 'Ошибка'
-    answer_text = ["Наша почта: it@get-it.io\nНаш сайт: http://get-it.io\nТел.: +7(495)773-46-67\n"+
+    answer_text = ["Почта: it@get-it.io\nСайт: http://get-it.io\nТел.: +7(495)773-46-67\n"+
                     "Канал с IT вакансиями:\n@getitrussia\n\n",
                     "Вас приветствует бот сервиса по IT-подбору *GetIT*. Бот выдает аналитику по заработной плате IT-специалистов. " +
                     "Для начала работы с ботом добавьте информацию о себе.",
@@ -292,7 +292,8 @@ def get_text(status):
                     "Вы можете отправить свое резюме в базу GetIT для оценки.\nВ случае подходящей вакансии наш специалист свяжется с Вами."+
                     "\n\nДля подробной консультации по Вашему резюме позвоните по номеру:\n+7(925)710-18-99\n\n" +
                     "Контакты:\nit@get-it.io\n+7(495)773-46-67\nhttp://get-it.io\n@getitrussia",
-                    "Прикрепите к сообщению Ваше резюме в формате pdf, zip, rtf, txt или docx.",
+                    "Прикрепите к сообщению Ваше резюме в формате pdf, zip, rtf, txt или docx.\n" +
+                    "Отправляя свое резюме, Вы даете согласие на обработку персональных данных.",
                     "Если Вам нужна помощь в IT-подборе, специалисты GetIT ответят на все вопросы и проконсультируют Вас по вакансии.\n\n" +
                     "Контакты:\nit@get-it.io\n+7(495)773-46-67\nhttp://get-it.io\n"]
 
@@ -332,6 +333,7 @@ def handle_start_help(message):
         bot.send_message(message.chat.id, text, reply_markup=markup, parse_mode="Markdown")
     except:
         print('Важная ошибка!\n Команда start.')
+        logging.info('Важная ошибка, команда старт time: %s '% (time.asctime()))
 
 
 
@@ -522,7 +524,7 @@ if __name__ == '__main__':
     db.close()
     while True:
         try:
-            bot.polling(none_stop=True)
+            bot.polling(none_stop=True, timeout = 100)
         except:
             print('ERROR! polling fail')
             logging.info('Telegram does not answer %s '% (time.asctime()))
